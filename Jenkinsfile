@@ -6,11 +6,7 @@ pipeline{
     stages{
         stage('Buzz Build') {
             steps {
-                sh '''
-                    env | grep -e PATH -e JAVA_HOME
-                    which java
-                    java -version
-                '''
+                sh 'gradle build'
             }
         }
         stage('Bees') {
