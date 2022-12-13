@@ -2,6 +2,7 @@ pipeline{
     agent any
     tools {
         gradle '7.6'
+        jdk 'jdk17'
     }
     stages{
         stage('Buzz Build') {
