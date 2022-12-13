@@ -3,7 +3,7 @@ pipeline{
     stages{
         stage('Buzz Build') {
             steps {
-                 sh  './jenkins/test-all.sh'
+                 sh './gradlew build'
                 junit '**/surefire-reports/**/*.xml'
             }
         }
