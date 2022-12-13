@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title th:text="#{geoRegion.list.headline}" />
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">
+                            <a href="#Region">Region</a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="d-flex flex-wrap mb-4">
+                <h1 th:text="#{geoRegion.list.headline}" class="flex-grow-1" />
+
+                <div>
+                    <a th:href="@{/geoRegions/add}" th:text="#{geoRegion.list.createNew}" class="btn btn-primary ms-2" />
+                </div>
+            </div>
+            <div th:if="${geoRegions.empty}" th:text="#{geoRegion.list.empty}" />
+            <div th:if="${!geoRegions.empty}" class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th th:text="#{geoRegion.pk.label}" scope="col" />
+                            <th th:text="#{geoRegion.name.label}" scope="col" />
+                            <th><!-- --></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="geoRegion : ${geoRegions}">
+                            <td th:text="${geoRegion.pk}" />
+                            <td><a th:href="@{/geoPrefectures/{pk}(pk=${geoRegion.pk})}" th:text="${geoRegion.name}" /> </td>
+                            <td>
+                                <form th:action="@{/geoRegions/delete/{pk}(pk=${geoRegion.pk})}" th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm float-end">
+                                    <a th:href="@{/geoRegions/edit/{pk}(pk=${geoRegion.pk})}" th:text="#{geoRegion.list.edit}" class="btn btn-sm btn-info" />
+                                    <button th:text="#{geoRegion.list.delete}" type="submit" class="btn btn-sm btn-danger" />
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

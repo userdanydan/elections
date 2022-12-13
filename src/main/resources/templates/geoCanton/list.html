@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title th:text="#{geoCanton.list.headline}" />
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item" aria-current="page">
+                            <a th:href="@{/geoRegions}" th:text="'Region  ' + ${geoCantons[0].pk.toString().charAt(0)}" ></a>
+                        </li>
+                        <li class="breadcrumb-item" aria-current="page">
+                            <a th:href="@{/geoPrefectures/{pk}(pk=${geoCantons[0].pk.toString().charAt(0)})}" th:text="'Prefecture  ' + ${geoCantons[0].pk.toString().substring(1, 4)}" ></a>
+                        </li>
+                        <li class="breadcrumb-item" aria-current="page">
+                            <a th:href="@{/geoCommunes/{pk}(pk=${geoCantons[0].pk.toString().substring(0, 4)})}" th:text="'Commune  ' + ${geoCantons[0].pk.toString().substring(4, 6)}" ></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                           Canton
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="d-flex flex-wrap mb-4">
+                <h1 th:text="#{geoCanton.list.headline}" class="flex-grow-1" />
+                <div>
+                    <a th:href="@{/geoCantons/add(geoId=${geoCantons[0].fkCommune})}" th:text="#{geoCanton.list.createNew}" class="btn btn-primary ms-2" />
+                </div>
+            </div>
+            <div th:if="${geoCantons.empty}" th:text="#{geoCanton.list.empty}" />
+            <div th:if="${!geoCantons.empty}" class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th th:text="#{geoCanton.pk.label}" scope="col" />
+                            <th th:text="#{geoCanton.code.label}" scope="col" />
+                            <th th:text="#{geoCanton.name.label}" scope="col" />
+                            <th th:text="#{geoCanton.active.label}" scope="col" />
+                            <th th:text="#{geoCanton.fkCommune.label}" scope="col" />
+                            <th><!-- --></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="geoCanton : ${geoCantons}">
+                            <td th:text="${geoCanton.pk}" />
+                            <td th:text="${geoCanton.code}" />
+                            <td>  <a th:href="@{/geoLocalites/{pk}(pk=${geoCanton.pk})}" th:text="${geoCanton.name}" /> </td>
+                            <td th:text="${geoCanton.active}" />
+                            <td th:text="${geoCanton.fkCommune}" />
+                            <td>
+                                <form th:action="@{/geoCantons/delete/{pk}(pk=${geoCanton.pk})}" th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm float-end">
+                                    <a th:href="@{/geoCantons/edit/{pk}(pk=${geoCanton.pk})}" th:text="#{geoCanton.list.edit}" class="btn btn-sm btn-info" />
+                                    <button th:text="#{geoCanton.list.delete}" type="submit" class="btn btn-sm btn-danger" />
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title th:text="#{home.index.headline}" />
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <h1 th:text="#{home.index.headline}" class="mb-4" />
+            <p th:utext="#{home.index.text}" />
+<!--            <p th:utext="#{home.index.swagger}" class="mb-5" />-->
+            <div class="row" id="download">
+                <div class="col-md-4 mb-5">
+                    <h4>Export Centres</h4>
+                    <p><a th:href="@{|/geoCentres/web/export|}"><span><button type="button" class="btn btn-primary">Click to Export</button></span></a></p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-5">
+                <h4 th:text="#{home.index.exploreEntities}" class="mb-3" />
+                <div class="list-group">
+                    <a th:href="@{/geoRegions}" th:text="#{geoRegion.list.headline}" class="list-group-item list-group-item-action" />
+<!--                    <a th:href="@{/geoPrefectures}" th:text="#{geoPrefecture.list.headline}" class="list-group-item list-group-item-action" />-->
+<!--                    <a th:href="@{/geoCommunes}" th:text="#{geoCommune.list.headline}" class="list-group-item list-group-item-action" />-->
+<!--                    <a th:href="@{/geoCantons}" th:text="#{geoCanton.list.headline}" class="list-group-item list-group-item-action" />-->
+<!--                    <a th:href="@{/geoLocalites}" th:text="#{geoLocalite.list.headline}" class="list-group-item list-group-item-action" />-->
+<!--                    <a th:href="@{/geoCentres}" th:text="#{geoCentre.list.headline}" class="list-group-item list-group-item-action" />-->
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

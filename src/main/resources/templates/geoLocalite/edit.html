@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title th:text="#{geoLocalite.edit.headline}" />
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 th:text="#{geoLocalite.edit.headline}" class="flex-grow-1" />
+                <div>
+                    <a th:href="@{/geoLocalites}" th:text="#{geoLocalite.edit.back}" class="btn btn-secondary" />
+                </div>
+            </div>
+            <div th:replace="fragments/forms::globalErrors('geoLocalite')" />
+            <form th:action="${#httpServletRequest.requestURI}" method="post">
+                <div th:replace="fragments/forms::inputRow(object='geoLocalite', field='code')" />
+                <div th:replace="fragments/forms::inputRow(object='geoLocalite', field='name')" />
+                <div th:replace="fragments/forms::inputRow(object='geoLocalite', field='dateAdded')" />
+                <div th:replace="fragments/forms::inputRow(object='geoLocalite', field='active')" />
+                <div th:replace="fragments/forms::inputRow(object='geoLocalite', field='fkCanton', type='select')" />
+                <input type="submit" th:value="#{geoLocalite.edit.headline}" class="btn btn-primary mt-4" />
+            </form>
+        </div>
+    </body>
+</html>

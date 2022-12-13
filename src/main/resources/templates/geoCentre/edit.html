@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title th:text="#{geoCentre.edit.headline}" />
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 th:text="#{geoCentre.edit.headline}" class="flex-grow-1" />
+                <div>
+                    <a th:href="@{/geoCentres}" th:text="#{geoCentre.edit.back}" class="btn btn-secondary" />
+                </div>
+            </div>
+            <div th:replace="fragments/forms::globalErrors('geoCentre')" />
+            <form th:action="${#httpServletRequest.requestURI}" method="post">
+                <div th:replace="fragments/forms::inputRow(object='geoCentre', field='name')" />
+                <div th:replace="fragments/forms::inputRow(object='geoCentre', field='kitidbegin')" />
+                <div th:replace="fragments/forms::inputRow(object='geoCentre', field='fullkitidbegin')" />
+                <div th:replace="fragments/forms::inputRow(object='geoCentre', field='dateAdded')" />
+                <div th:replace="fragments/forms::inputRow(object='geoCentre', field='active')" />
+                <div th:replace="fragments/forms::inputRow(object='geoCentre', field='fkLocalite', type='select')" />
+                <input type="submit" th:value="#{geoCentre.edit.headline}" class="btn btn-primary mt-4" />
+            </form>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="inputRow(object, field)" th:with="type=${type} ?: 'text', required=${required}" th:object="${__${object}__}" class="row mb-3">
+            <div th:if="${type == 'checkbox'}" class="col-md-10 offset-md-2">
+                <div class="form-check">
+                    <input th:if="${type == 'checkbox'}" th:type="${type}" th:field="*{__${field}__}" th:classappend="${#fields.hasErrors(field)}? is-invalid" class="form-check-input" />
+                    <label th:if="${type == 'checkbox'}" th:for="${#ids.prev(field)}" class="form-check-label">
+                        <span th:text="#{__${object}__.__${field}__.label}" /><!--/*
+                        */--><span th:replace=":: requiredStar(object=${object}, field=${field}, required=${required})" />
+                    </label>
+                </div>
+                <div th:replace=":: fieldErrors(${object}, ${field})" />
+            </div>
+            <label th:if="${type != 'checkbox'}" th:for="${field}" class="col-md-2 col-form-label">
+                <span th:text="#{__${object}__.__${field}__.label}" /><!--/*
+                */--><span th:replace=":: requiredStar(object=${object}, field=${field}, required=${required})" />
+            </label>
+            <div th:if="${type != 'checkbox'}" class="col-md-10 shadow-sm bg-body rounded">
+                <input th:if="${ (type == 'text' || type == 'password') && field != 'pk' && field != 'kitidbegin' && field != 'dateAdded' && field != 'name'}" th:type="${type}" th:field="*{__${field}__}" th:classappend="${#fields.hasErrors(field)}? is-invalid" class="form-control" />
+                <input th:if="${ field == 'pk'}" th:type="${type}" id="pk" name="pk" th:value="${geoCentrePrimaryKey}" class="form-control" readonly required/>
+                <input th:if="${ field == 'name'}" th:type="${type}" id="name" name="name" class="form-control" required/>
+                <input th:if="${ field == 'kitidbegin'}" th:type="${type}" th:field="*{__${field}__}" th:placeholder="${param.kitIdBegin}" th:value="${param.kitIdBegin}" class="form-control" readonly required/>
+                <input th:if="${ field == 'dateAdded'}" th:type="${type}" th:field="*{__${field}__}" th:placeholder="${#dates.format(#dates.createNow(), 'dd-MM-yyyy HH:mm')}" th:value="${#dates.format(#dates.createNow(), 'dd-MM-yyyy HH:mm')}" class="form-control" readonly />
+                <textarea th:if="${type == 'textarea'}" th:field="*{__${field}__}"
+                        th:classappend="${#fields.hasErrors(field) || #fields.hasErrors(field + '.*')}? is-invalid" class="form-control" />
+                <select th:if="${type == 'select' || type == 'multiselect'}" id="fkLocalite" name="fkLocalite"
+                        th:multiple="${type == 'multiselect'}?${true}" th:classappend="${#fields.hasErrors(field)}? is-invalid" class="form-select">
+                    <option th:if="${type == 'select'}" value="" th:text="#{select.empty.label}" />
+                    <option th:if="${!(__${field}__Values instanceof T(java.util.Map))}"
+                            th:each="optionValue : ${__${field}__Values}" th:value="${optionValue}" th:text="${optionValue}" required/>
+                    <option th:if="${__${field}__Values instanceof T(java.util.Map) && param.geoId != null}"
+                            th:each="optionValue : ${__${field}__Values}" th:value="${optionValue.key}" th:text="${optionValue.value}+' : '+${optionValue.key}" th:selected="${#strings.equals(#strings.toString(optionValue.key), param.geoId)}" selected required/>
+<!--                    <option th:if="${__${field}__Values instanceof T(java.util.Map) && pk!= null}"-->
+<!--                            th:each="optionValue : ${__${field}__Values}" th:value="${optionValue.key}" th:text="${optionValue.value}+' : '+${optionValue.key}" th:selected="${#strings.equals(#strings.toString(optionValue.key), #strings.substring(pk, 0, 1))}"/>-->
+
+                </select>
+                <div th:if="${type == 'radio' && !T(com.zetres.elections.util.WebUtils).isRequiredField(__${object}__, field)}" class="form-check form-check-inline pt-2">
+                    <input value="" th:checked="*{__${field}__} == null" th:name="${field}" th:classappend="${#fields.hasErrors(field)}? is-invalid" type="radio" class="form-check-input" />
+                    <label th:text="#{select.empty.label}" class="form-check-label" />
+                </div>
+                <div th:if="${type == 'radio'}" th:each="radioValue : ${__${field}__Values}" class="form-check form-check-inline pt-2">
+                    <input th:field="*{__${field}__}" th:value="${radioValue}" th:classappend="${#fields.hasErrors(field)}? is-invalid" type="radio" class="form-check-input" />
+                    <label th:for="${#ids.prev(field)}" th:text="${radioValue}" class="form-check-label" />
+                </div>
+                <div th:replace=":: fieldErrors(${object}, ${field})" />
+            </div>
+        </div>
+
+        <span th:fragment="requiredStar(object, field)" th:with="required=${required}"
+                th:if="${required == null ? T(com.zetres.elections.util.WebUtils).isRequiredField(__${object}__, field) : required}">*</span>
+        <div th:fragment="fieldErrors(object, field)" th:object="${__${object}__}" th:remove="tag">
+            <div th:if="${#fields.hasErrors(field) || #fields.hasErrors(field + '.*')}" class="invalid-feedback d-block">
+                <p th:each="fieldError : ${#fields.detailedErrors(field + '*')}"
+                        th:text="${(fieldError.fieldName != field ? fieldError.fieldName + ': ' : '') + fieldError.message}" class="mb-0" />
+            </div>
+        </div>
+
+        <div th:fragment="globalErrors(object)" th:object="${__${object}__}" th:remove="tag">
+            <div th:if="${#fields.hasGlobalErrors()}" class="invalid-feedback d-block">
+                <p th:each="globalError : ${#fields.globalErrors()}" th:text="${globalError}" class="mb-0" />
+            </div>
+        </div>
+    </body>
+</html>

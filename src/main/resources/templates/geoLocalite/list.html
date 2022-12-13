@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title th:text="#{geoLocalite.list.headline}" />
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item" aria-current="page">
+                            <a th:href="@{/geoRegions}" th:text="'Region  ' + ${geoLocalites[0].fkCanton.toString().charAt(0)}" ></a>
+                        </li>
+                        <li class="breadcrumb-item" aria-current="page">
+                            <a th:href="@{/geoPrefectures/{pk}(pk=${geoLocalites[0].fkCanton.toString().charAt(0)})}" th:text="'Prefecture  ' + ${geoLocalites[0].fkCanton.toString().substring(1, 4)}" ></a>
+                        </li>
+                        <li class="breadcrumb-item" aria-current="page">
+                            <a th:href="@{/geoCommunes/{pk}(pk=${geoLocalites[0].fkCanton.toString().substring(0, 4)})}" th:text="'Commune  ' + ${geoLocalites[0].fkCanton.toString().substring(4, 6)}" ></a>
+                        </li>
+                        <li class="breadcrumb-item" aria-current="page">
+                            <a th:href="@{/geoCantons/{pk}(pk=${geoLocalites[0].fkCanton.toString().substring(0, 6)})}" th:text="'Canton  ' + ${geoLocalites[0].fkCanton.toString().substring(6, 8)}" ></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                           Localite
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="d-flex flex-wrap mb-4">
+                <h1 th:text="#{geoLocalite.list.headline}" class="flex-grow-1" />
+                <div>
+                    <a th:href="@{/geoLocalites/add(geoId=${geoLocalites[0].fkCanton})}" th:text="#{geoLocalite.list.createNew}" class="btn btn-primary ms-2" />
+                </div>
+            </div>
+            <div th:if="${geoLocalites.empty}" th:text="#{geoLocalite.list.empty}" />
+            <div th:if="${!geoLocalites.empty}" class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th th:text="#{geoLocalite.pk.label}" scope="col" />
+                            <th th:text="#{geoLocalite.code.label}" scope="col" />
+                            <th th:text="#{geoLocalite.name.label}" scope="col" />
+                            <th th:text="#{geoLocalite.dateAdded.label}" scope="col" />
+                            <th th:text="#{geoLocalite.active.label}" scope="col" />
+                            <th th:text="#{geoLocalite.fkCanton.label}" scope="col" />
+                            <th><!-- --></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="geoLocalite : ${geoLocalites}">
+                            <td th:text="${geoLocalite.pk}" />
+                            <td th:text="${geoLocalite.code}" />
+                            <td>  <a th:href="@{/geoCentres/{pk}(pk=${geoLocalite.pk})}" th:text="${geoLocalite.name}" /> </td>
+                            <td th:text="${geoLocalite.dateAdded}" />
+                            <td th:text="${geoLocalite.active}" />
+                            <td th:text="${geoLocalite.fkCanton}" />
+                            <td>
+                                <form th:action="@{/geoLocalites/delete/{pk}(pk=${geoLocalite.pk})}" th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm float-end">
+                                    <a th:href="@{/geoLocalites/edit/{pk}(pk=${geoLocalite.pk})}" th:text="#{geoLocalite.list.edit}" class="btn btn-sm btn-info" />
+                                    <button th:text="#{geoLocalite.list.delete}" type="submit" class="btn btn-sm btn-danger" />
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
