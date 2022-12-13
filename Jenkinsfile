@@ -6,7 +6,7 @@ pipeline{
     stages{
         stage('Buzz Build') {
             steps {
-                sh 'gradle --version'
+                sh 'gradle build'
             }
         }
         stage('Bees') {
