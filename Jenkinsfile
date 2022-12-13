@@ -1,9 +1,10 @@
 pipeline{
     agent any
     stages{
-        stage('Buzz buzz') {
+        stage('Buzz Build') {
             steps {
-                echo 'Buzz buzz'
+                 sh  './jenkins/test-all.sh'
+                junit '**/surefire-reports/**/*.xml'
             }
         }
         stage('Bees') {
