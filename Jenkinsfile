@@ -1,10 +1,12 @@
 pipeline{
     agent any
+    tools {
+        gradle '7.6'
+    }
     stages{
         stage('Buzz Build') {
             steps {
-                 sh './gradlew build'
-                junit '**/surefire-reports/**/*.xml'
+                sh 'gradle --version'
             }
         }
         stage('Bees') {
