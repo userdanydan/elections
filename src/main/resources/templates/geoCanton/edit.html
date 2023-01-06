@@ -8,9 +8,9 @@
         <div layout:fragment="content">
             <div class="d-flex flex-wrap mb-4">
                 <h1 th:text="#{geoCanton.edit.headline}" class="flex-grow-1" />
-                <div>
-                    <a th:href="@{/geoCantons}" th:text="#{geoCanton.edit.back}" class="btn btn-secondary" />
-                </div>
+<!--                <div>-->
+<!--                    <a th:href="@{/geoCantons}" th:text="#{geoCanton.edit.back}" class="btn btn-secondary" />-->
+<!--                </div>-->
             </div>
             <div th:replace="fragments/forms::globalErrors('geoCanton')" />
             <form th:action="${#httpServletRequest.requestURI}" method="post">

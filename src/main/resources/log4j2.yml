@@ -19,14 +19,14 @@ Configuration:
       fileName: "src/main/resources/records.log"
       PatternLayout:
         pattern: "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
-#  Loggers:
-#
-#    Root:
-#      level: debug
-#      AppenderRef:
-#        - ref: Console_Appender
-#
-#    Logger:
+  Loggers:
+
+    Root:
+      level: debug
+      AppenderRef:
+        - ref: Console_Appender
+
+    Logger:
 #      - name: org.hibernate.SQL
 #        level: debug
 #        AppenderRef:
@@ -36,8 +36,8 @@ Configuration:
 #        level: trace
 #        AppenderRef:
 #          - ref : File_Appender
-#
-#      - name: p6spy
-#        level: trace
-#        AppenderRef:
-#          - ref: File_Appender
+
+      - name: p6spy
+        level: trace
+        AppenderRef:
+          - ref: File_Appender
